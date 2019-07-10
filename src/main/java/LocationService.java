@@ -6,9 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LocationService implements LocationDao {
+    public Connection connection = Connections.getConnection();
 
     public Location getLocation(Integer id) {
-        Connection connection = Connections.getConnection();
+        //Connection connection = Connections.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -23,7 +24,7 @@ public class LocationService implements LocationDao {
     }
 
     public Set<Location> getAllLocations() {
-        Connection connection = Connections.getConnection();
+        //Connection connection = Connections.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -44,14 +45,15 @@ public class LocationService implements LocationDao {
     }
 
     public Boolean insertLocation(Location location) {
-        Connection connection = Connections.getConnection();
+        //Connection connection = Connections.getConnection();
 
         try{
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO locations.location VALUES (NULL ,? ,? ,? ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO locations.location VALUES (NULL ,? ,? ,?, ?)");
             ps.setString(1, location.getName());
             ps.setString(2, location.getDescription());
             ps.setString(3, location.getTeam());
             ps.setString(4, location.getCity());
+
             int i = ps.executeUpdate();
              if( i == 1) {
                  return true;
@@ -63,10 +65,11 @@ public class LocationService implements LocationDao {
     }
 
     public Boolean updateLocation(Location location) {
-        Connection connection = Connections.getConnection();
+        //Connection connection = Connections.getConnection();
 
         try{
             PreparedStatement ps = connection.prepareStatement("UPDATE  locations.location SET name=?  ,description=? ,team=?, city=? where id = ?");
+            ps.setInt(5, location.getId());
             ps.setString(1, location.getName());
             ps.setString(2, location.getDescription());
             ps.setString(3, location.getTeam());
@@ -83,7 +86,7 @@ public class LocationService implements LocationDao {
 
 
     public Boolean deleteLocation(Integer id) {
-        Connection connection = Connections.getConnection();
+        //Connection connection = Connections.getConnection();
         try {
             Statement stmt = connection.createStatement();
             int i = stmt.executeUpdate("DELETE FROM locations.location WHERE id=" + id);

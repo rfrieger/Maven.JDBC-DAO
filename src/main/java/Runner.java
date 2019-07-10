@@ -10,6 +10,7 @@ public class Runner {
         Location location = locationService.getLocation(1);
         System.out.println(location.toString());
 
+
         Set<Location> locationList = locationService.getAllLocations();
         for(Location l : locationList) {
             System.out.println(l.toString());
